@@ -10,6 +10,7 @@ class Module
         return [
             'Admin',
             'Auth',
+            'Gateway',
             'Permission',
             'SallaIntegration',
             'Team',

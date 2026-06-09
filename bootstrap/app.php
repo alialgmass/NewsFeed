@@ -2,6 +2,7 @@
 
 use App\Exceptions\ApiHandler;
 use App\Http\Middleware\AppLanguage;
+use App\Http\Middleware\CustomThrottleRequests;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -9,6 +10,10 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Http\Middleware\CheckAbilities;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
+use Modules\Gateway\Http\Middleware\AuthenticateApiKey;
+use Modules\Gateway\Http\Middleware\ValidateWebhookSignature;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,8 +30,18 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
         $middleware->use([
             AppLanguage::class,
+        ]);
+
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'gateway.api-key' => AuthenticateApiKey::class,
+            'gateway.webhook-signature' => ValidateWebhookSignature::class,
+            'gateway.throttle' => CustomThrottleRequests::class,
+            'ability' => CheckAbilities::class,
+            'abilities' => CheckForAnyAbility::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

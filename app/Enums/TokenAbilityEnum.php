@@ -2,10 +2,12 @@
 
 namespace App\Enums;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 enum TokenAbilityEnum: string
 {
+    case Access = 'access';
+    case Refresh = 'refresh';
     case ChangePassword = 'change_password';
 
     public function middleware(): string
@@ -21,14 +23,18 @@ enum TokenAbilityEnum: string
     public function expiration(): Carbon
     {
         return match ($this) {
-            default => now()->addSeconds(520),
+            self::Access => Carbon::now()->addMinutes(15),
+            self::Refresh => Carbon::now()->addDays(7),
+            self::ChangePassword => Carbon::now()->addSeconds(520),
         };
     }
 
     public function exceptionMessage(): string
     {
         return match ($this) {
-            default => now()->addSeconds(520),
+            self::Access => __('Access token invalid or expired'),
+            self::Refresh => __('Refresh token invalid or expired'),
+            self::ChangePassword => __('Change password token invalid or expired'),
         };
     }
 }
