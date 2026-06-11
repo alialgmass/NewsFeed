@@ -11,10 +11,23 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
+        <testsuite name="Gateway Unit">
+            <directory>Modules/Gateway/tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Gateway Feature">
+            <directory>Modules/Gateway/tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Auth Unit">
+            <directory>Modules/Auth/tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Auth Feature">
+            <directory>Modules/Auth/tests/Feature</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
             <directory>app</directory>
+            <directory>Modules</directory>
         </include>
     </source>
     <php>

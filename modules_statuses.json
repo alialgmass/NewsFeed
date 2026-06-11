@@ -1,0 +1,6 @@
+{
+    "Gateway": true,
+    "Auth": true,
+    "Feed": true,
+    "User": true
+}
