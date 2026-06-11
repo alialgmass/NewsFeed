@@ -2,9 +2,10 @@
 
 namespace Modules\Feed\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Feed\Database\Factories\NewCategoryFactory;
+use Modules\User\Models\InterestCategory;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
@@ -12,6 +13,7 @@ use Spatie\Translatable\HasTranslations;
 class NewCategory extends Model
 {
     use HasFactory, HasTranslations;
+
     /**
      * The attributes that are mass assignable.
      */
@@ -19,7 +21,7 @@ class NewCategory extends Model
         'title',
         'slug',
         'description',
-        'parent_id'
+        'parent_id',
     ];
 
     protected static function newFactory(): NewCategoryFactory
@@ -30,5 +32,9 @@ class NewCategory extends Model
     public function parent()
     {
         return $this->belongsTo(NewCategory::class, 'parent_id');
+    }
+    public function interests()
+    {
+        return $this->hasMany(InterestCategory::class, 'new_category_id');
     }
 }

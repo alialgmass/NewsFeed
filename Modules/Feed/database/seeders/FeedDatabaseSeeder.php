@@ -3,6 +3,8 @@
 namespace Modules\Feed\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Feed\Models\NewCategory;
+use Modules\Feed\Models\NewItem;
 
 class FeedDatabaseSeeder extends Seeder
 {
@@ -12,13 +14,13 @@ class FeedDatabaseSeeder extends Seeder
     public function run(): void
     {
         // Ensure we have categories to link to
-        if (\Modules\Feed\Models\NewCategory::count() === 0) {
+        if (NewCategory::count() === 0) {
             $this->command->info('Creating initial categories...');
-            \Modules\Feed\Models\NewCategory::factory()->count(10)->create();
-            \Modules\Feed\Models\NewCategory::factory()->count(20)->withParent()->create();
+            NewCategory::factory()->count(10)->create();
+            NewCategory::factory()->count(20)->withParent()->create();
         }
-        
-        $categoryIds = \Modules\Feed\Models\NewCategory::pluck('id')->toArray();
+
+        $categoryIds = NewCategory::pluck('id')->toArray();
 
         $total = 1000000;
         $chunkSize = 1000;
@@ -28,15 +30,15 @@ class FeedDatabaseSeeder extends Seeder
 
         while ($count < $total) {
             // Override new_category_id to null in raw() to prevent the factory from creating 1M categories
-            $rawItems = \Modules\Feed\Models\NewItem::factory()
+            $rawItems = NewItem::factory()
                 ->count($chunkSize)
                 ->state(['new_category_id' => null])
                 ->raw();
-            
+
             $items = array_map(function ($item) use ($categoryIds) {
                 return [
                     'title' => json_encode($item['title']),
-                    'slug' => $item['slug'] . '-' . bin2hex(random_bytes(8)), // Higher entropy for 1M items
+                    'slug' => $item['slug'].'-'.bin2hex(random_bytes(8)), // Higher entropy for 1M items
                     'description' => json_encode($item['description']),
                     'body' => $item['body'],
                     'published_at' => $item['published_at'] ? ($item['published_at'] instanceof \DateTime ? $item['published_at']->format('Y-m-d H:i:s') : $item['published_at']) : null,
@@ -47,7 +49,7 @@ class FeedDatabaseSeeder extends Seeder
                 ];
             }, $rawItems);
 
-            \Modules\Feed\Models\NewItem::insert($items);
+            NewItem::insert($items);
 
             $count += $chunkSize;
             $this->command->getOutput()->progressAdvance($chunkSize);

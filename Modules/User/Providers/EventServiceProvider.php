@@ -3,6 +3,8 @@
 namespace Modules\User\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Modules\Feed\Events\NewItemReaded;
+use Modules\User\Listeners\AddInterstOnNewItem;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -12,8 +14,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array<string, array<int, string>>
      */
     protected $listen = [
-        \Modules\Feed\Events\NewItemReaded::class => [
-            \Modules\User\Listeners\AddInterstOnNewItem::class,
+        NewItemReaded::class => [
+            AddInterstOnNewItem::class,
         ],
     ];
 
@@ -28,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
      * Configure the proper event listeners for email verification.
      */
     protected function configureEmailVerification(): void {}
+
     protected function discoverEventsWithin(): array
     {
         return [

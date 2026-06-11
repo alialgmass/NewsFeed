@@ -3,8 +3,6 @@
 namespace Modules\User\Listeners;
 
 use Modules\Feed\Events\NewItemReaded;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\User\Models\InterestCategory;
 
 class AddInterstOnNewItem
@@ -17,7 +15,8 @@ class AddInterstOnNewItem
     /**
      * Handle the event.
      */
-    public function handle(NewItemReaded $event): void {
+    public function handle(NewItemReaded $event): void
+    {
         $interest = InterestCategory::query()->firstOrCreate(
             [
                 'new_category_id' => $event->new_category_id,
@@ -28,6 +27,6 @@ class AddInterstOnNewItem
             ]
         );
 
-        $interest->increment('level',.00001);
+        $interest->increment('level', .00001);
     }
 }

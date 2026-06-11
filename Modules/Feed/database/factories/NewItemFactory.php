@@ -3,8 +3,8 @@
 namespace Modules\Feed\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Feed\Models\NewItem;
 use Modules\Feed\Models\NewCategory;
+use Modules\Feed\Models\NewItem;
 
 class NewItemFactory extends Factory
 {
@@ -64,4 +64,3 @@ class NewItemFactory extends Factory
         });
     }
 }
-

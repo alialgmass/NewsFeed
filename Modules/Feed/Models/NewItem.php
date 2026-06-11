@@ -2,17 +2,15 @@
 
 namespace Modules\Feed\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Modules\User\Models\InterestCategory;
+use Modules\Feed\Database\Factories\NewItemFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
-use Modules\Feed\Database\Factories\NewItemFactory;
+
 #[Translatable('title', 'description')]
 class NewItem extends Model implements HasMedia
 {
@@ -28,7 +26,7 @@ class NewItem extends Model implements HasMedia
         'body',
         'published_at',
         'source',
-        'new_category_id'
+        'new_category_id',
     ];
 
     protected static function newFactory(): NewItemFactory
@@ -43,9 +41,9 @@ class NewItem extends Model implements HasMedia
             'source' => 'array',
         ];
     }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(NewCategory::class, 'new_category_id');
     }
-
 }

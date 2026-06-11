@@ -4,7 +4,6 @@ namespace Modules\Auth\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Modules\Auth\Actions\CreateToken;
 use Modules\Auth\Http\Requests\RegisterRequest;
 

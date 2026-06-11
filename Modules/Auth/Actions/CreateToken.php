@@ -19,7 +19,7 @@ class CreateToken
     public function refresh(User $user, string $deviceName = 'api'): string
     {
         return $user->createToken(
-            $deviceName . '_refresh',
+            $deviceName.'_refresh',
             [TokenAbilityEnum::Refresh->value],
             TokenAbilityEnum::Refresh->expiration()
         )->plainTextToken;
