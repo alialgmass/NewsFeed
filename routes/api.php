@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Auth\Http\Controllers\LoginController;
-use Modules\Auth\Http\Controllers\ProfileController;
-use Modules\Auth\Http\Controllers\RegisterController;
-use Modules\Auth\Http\Controllers\TokenController;
+use Modules\Auth\Http\Controllers\Api\LoginController;
+use Modules\Auth\Http\Controllers\Api\ProfileController;
+use Modules\Auth\Http\Controllers\Api\RegisterController;
+use Modules\Auth\Http\Controllers\Api\TokenController;
 
 Route::post('/auth/register', [RegisterController::class, 'register'])
     ->middleware('throttle:gateway:api')

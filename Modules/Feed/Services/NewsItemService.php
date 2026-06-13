@@ -6,11 +6,11 @@ use App\Models\User;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
-use Modules\Feed\Events\NewItemReaded;
-use Modules\Feed\Models\NewItem;
+use Modules\Feed\Events\NewsItemRead;
+use Modules\Feed\Models\NewsItem;
 use Modules\User\Models\InterestCategory;
 
-class NewItemService
+class NewsItemService
 {
     private const USER_INTERESTS_CACHE_TTL = 300;
 
@@ -25,11 +25,11 @@ class NewItemService
             : $this->personalizedFeed($categoryIds, $perPage);
     }
 
-    public function getNewItemDetail(
-        NewItem $newItem,
+    public function getNewsItemDetail(
+        NewsItem $newItem,
         User $user
     ): array {
-        event(new NewItemReaded(
+        event(new NewsItemRead(
             $newItem->new_category_id,
             $user
         ));
@@ -51,7 +51,7 @@ class NewItemService
     private function defaultFeed(
         int $perPage
     ): CursorPaginator {
-        return NewItem::query()
+        return NewsItem::query()
             ->latest('published_at')
             ->latest('id')
             ->cursorPaginate($perPage);
@@ -60,7 +60,7 @@ class NewItemService
     private function feedQuery(
         array $categoryIds
     ): Builder {
-        return NewItem::query()
+        return NewsItem::query()
             ->whereIn('new_category_id', $categoryIds)
             ->orderByRaw(
                 $this->buildCategoryPriorityExpression($categoryIds)

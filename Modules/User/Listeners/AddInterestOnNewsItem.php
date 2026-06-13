@@ -2,10 +2,10 @@
 
 namespace Modules\User\Listeners;
 
-use Modules\Feed\Events\NewItemReaded;
+use Modules\Feed\Events\NewsItemRead;
 use Modules\User\Models\InterestCategory;
 
-class AddInterstOnNewItem
+class AddInterestOnNewsItem
 {
     /**
      * Create the event listener.
@@ -15,7 +15,7 @@ class AddInterstOnNewItem
     /**
      * Handle the event.
      */
-    public function handle(NewItemReaded $event): void
+    public function handle(NewsItemRead $event): void
     {
         $interest = InterestCategory::query()->firstOrCreate(
             [

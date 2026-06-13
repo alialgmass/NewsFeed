@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InterestCategory extends Model
 {
-    protected $table = 'interst_categories';
+    protected $table = 'interest_categories';
 
     /**
      * The attributes that are mass assignable.

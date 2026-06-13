@@ -4,13 +4,13 @@ namespace Modules\Feed\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Feed\Database\Factories\NewCategoryFactory;
+use Modules\Feed\Database\Factories\NewsCategoryFactory;
 use Modules\User\Models\InterestCategory;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
 #[Translatable('title', 'description')]
-class NewCategory extends Model
+class NewsCategory extends Model
 {
     use HasFactory, HasTranslations;
 
@@ -24,17 +24,18 @@ class NewCategory extends Model
         'parent_id',
     ];
 
-    protected static function newFactory(): NewCategoryFactory
+    protected static function newFactory(): NewsCategoryFactory
     {
-        return NewCategoryFactory::new();
+        return NewsCategoryFactory::new();
     }
 
     public function parent()
     {
-        return $this->belongsTo(NewCategory::class, 'parent_id');
+        return $this->belongsTo(NewsCategory::class, 'parent_id');
     }
+
     public function interests()
     {
-        return $this->hasMany(InterestCategory::class, 'new_category_id');
+        return $this->hasMany(InterestCategory::class, 'news_category_id');
     }
 }

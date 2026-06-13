@@ -4,6 +4,8 @@ namespace App\Exceptions\ApiException;
 
 class ValidationExceptionResponse extends ApiException
 {
+    protected $code = 422;
+
     public static function instance(array $errors): static
     {
         return (new static(collect($errors)->first()[0]))->setCustomBody($errors);
@@ -21,6 +23,6 @@ class ValidationExceptionResponse extends ApiException
 
     public function getCustomCode(): int
     {
-        return 4000;
+        return 4220;
     }
 }

@@ -3,14 +3,14 @@
 namespace Modules\Feed\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Feed\Models\NewCategory;
+use Modules\Feed\Models\NewsCategory;
 
-class NewCategoryFactory extends Factory
+class NewsCategoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      */
-    protected $model = NewCategory::class;
+    protected $model = NewsCategory::class;
 
     /**
      * Define the model's default state.
@@ -37,7 +37,7 @@ class NewCategoryFactory extends Factory
     public function withParent(): static
     {
         return $this->state(fn (array $attributes) => [
-            'parent_id' => NewCategory::factory(),
+            'parent_id' => NewsCategory::factory(),
         ]);
     }
 }

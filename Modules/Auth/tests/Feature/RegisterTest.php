@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'Password123!',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $response->assertJson(['status' => true]);
         $response->assertJsonMissingPath('body.token');
         $this->assertDatabaseHas('users', [

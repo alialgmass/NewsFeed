@@ -5,14 +5,14 @@ namespace Modules\Feed\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Modules\Feed\Database\Factories\NewItemFactory;
+use Modules\Feed\Database\Factories\NewsItemFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
 #[Translatable('title', 'description')]
-class NewItem extends Model implements HasMedia
+class NewsItem extends Model implements HasMedia
 {
     use HasFactory,HasTranslations,InteractsWithMedia;
 
@@ -29,9 +29,9 @@ class NewItem extends Model implements HasMedia
         'new_category_id',
     ];
 
-    protected static function newFactory(): NewItemFactory
+    protected static function newFactory(): NewsItemFactory
     {
-        return NewItemFactory::new();
+        return NewsItemFactory::new();
     }
 
     protected function casts(): array
@@ -44,6 +44,6 @@ class NewItem extends Model implements HasMedia
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(NewCategory::class, 'new_category_id');
+        return $this->belongsTo(NewsCategory::class, 'new_category_id');
     }
 }

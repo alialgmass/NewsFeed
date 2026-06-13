@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Gateway\Http\Controllers\GatewayController;
+use Modules\Gateway\Http\Controllers\Api\GatewayController;
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::apiResource('keys', GatewayController::class);

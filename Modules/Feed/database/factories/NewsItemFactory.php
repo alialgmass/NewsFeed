@@ -3,15 +3,15 @@
 namespace Modules\Feed\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Feed\Models\NewCategory;
-use Modules\Feed\Models\NewItem;
+use Modules\Feed\Models\NewsCategory;
+use Modules\Feed\Models\NewsItem;
 
-class NewItemFactory extends Factory
+class NewsItemFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      */
-    protected $model = NewItem::class;
+    protected $model = NewsItem::class;
 
     /**
      * Define the model's default state.
@@ -34,7 +34,7 @@ class NewItemFactory extends Factory
                 'url' => $this->faker->url(),
                 'name' => $this->faker->company(),
             ],
-            'new_category_id' => NewCategory::factory(),
+            'new_category_id' => NewsCategory::factory(),
         ];
     }
 
@@ -44,7 +44,7 @@ class NewItemFactory extends Factory
     public function withSubCategory(): static
     {
         return $this->state(fn (array $attributes) => [
-            'new_category_id' => NewCategory::factory()->withParent(),
+            'new_category_id' => NewsCategory::factory()->withParent(),
         ]);
     }
 
@@ -53,7 +53,7 @@ class NewItemFactory extends Factory
      */
     public function configure(): static
     {
-        return $this->afterCreating(function (NewItem $newItem) {
+        return $this->afterCreating(function (NewsItem $newItem) {
             $url = 'https://picsum.photos/640/480';
             try {
                 $newItem->addMediaFromUrl($url)

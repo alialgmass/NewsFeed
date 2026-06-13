@@ -3,19 +3,19 @@
 namespace Modules\Feed\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
-use Modules\Feed\Models\NewItem;
-use Modules\Feed\Services\NewItemService;
+use Modules\Feed\Models\NewsItem;
+use Modules\Feed\Services\NewsItemService;
 
-class NewItemController extends ApiController
+class NewsItemController extends ApiController
 {
-    public function __construct(private NewItemService $feedService)
+    public function __construct(private NewsItemService $newsItemService)
     {
         parent::__construct();
     }
 
     public function index()
     {
-        $news = $this->feedService->getPaginatedFeed(
+        $news = $this->newsItemService->getPaginatedFeed(
             user: $this->user,
             perPage: $this->perPage
         );
@@ -25,10 +25,10 @@ class NewItemController extends ApiController
         ])->apiResponse();
     }
 
-    public function show(NewItem $feed)
+    public function show(NewsItem $newsItem)
     {
         return $this->apiBody(
-            $this->feedService->getNewItemDetail($feed, $this->user)
+            $this->newsItemService->getNewsItemDetail($newsItem, $this->user)
         )->apiResponse();
     }
 }

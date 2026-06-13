@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('new_items', function (Blueprint $table) {
+        Schema::create('news_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->index();
-            $table->string('slug')->index();
+            $table->string('title');
+            $table->string('slug');
             $table->text('description');
-            $table->text('body');
-            $table->timestamp('published_at')->nullable();
-            $table->json('source')->nullable();
-            $table->foreignId('new_category_id')->constrained('new_categories');
+            $table->foreignId('parent_id')->nullable()->constrained('news_categories');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('new_items');
+        Schema::dropIfExists('news_categories');
     }
 };
