@@ -3,8 +3,8 @@
 namespace Modules\User\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Modules\Feed\Events\NewItemReaded;
-use Modules\User\Listeners\AddInterstOnNewItem;
+use Modules\Feed\Events\NewsItemRead;
+use Modules\User\Listeners\AddInterestOnNewsItem;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -14,8 +14,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array<string, array<int, string>>
      */
     protected $listen = [
-        NewItemReaded::class => [
-            AddInterstOnNewItem::class,
+        NewsItemRead::class => [
+            AddInterestOnNewsItem::class,
         ],
     ];
 

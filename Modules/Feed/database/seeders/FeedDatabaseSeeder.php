@@ -3,8 +3,8 @@
 namespace Modules\Feed\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Feed\Models\NewCategory;
-use Modules\Feed\Models\NewItem;
+use Modules\Feed\Models\NewsCategory;
+use Modules\Feed\Models\NewsItem;
 
 class FeedDatabaseSeeder extends Seeder
 {
@@ -14,13 +14,13 @@ class FeedDatabaseSeeder extends Seeder
     public function run(): void
     {
         // Ensure we have categories to link to
-        if (NewCategory::count() === 0) {
+        if (NewsCategory::count() === 0) {
             $this->command->info('Creating initial categories...');
-            NewCategory::factory()->count(10)->create();
-            NewCategory::factory()->count(20)->withParent()->create();
+            NewsCategory::factory()->count(10)->create();
+            NewsCategory::factory()->count(20)->withParent()->create();
         }
 
-        $categoryIds = NewCategory::pluck('id')->toArray();
+        $categoryIds = NewsCategory::pluck('id')->toArray();
 
         $total = 1000000;
         $chunkSize = 1000;
@@ -30,7 +30,7 @@ class FeedDatabaseSeeder extends Seeder
 
         while ($count < $total) {
             // Override new_category_id to null in raw() to prevent the factory from creating 1M categories
-            $rawItems = NewItem::factory()
+            $rawItems = NewsItem::factory()
                 ->count($chunkSize)
                 ->state(['new_category_id' => null])
                 ->raw();
@@ -49,7 +49,7 @@ class FeedDatabaseSeeder extends Seeder
                 ];
             }, $rawItems);
 
-            NewItem::insert($items);
+            NewsItem::insert($items);
 
             $count += $chunkSize;
             $this->command->getOutput()->progressAdvance($chunkSize);
