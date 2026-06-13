@@ -1,18 +1,17 @@
 <?php
 
-namespace Modules\Gateway\Http\Controllers;
+namespace Modules\Gateway\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\JsonResponse;
+use Modules\Gateway\Http\Requests\StoreApiKeyRequest;
+use Modules\Gateway\Http\Requests\UpdateApiKeyRequest;
 use Modules\Gateway\Models\ApiKey;
 
 class GatewayController extends ApiController
 {
     public static ?string $model = ApiKey::class;
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): JsonResponse
     {
         $keys = ApiKey::filter(request()->all())->paginate();
@@ -22,51 +21,29 @@ class GatewayController extends ApiController
         ])->apiResponse();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(): JsonResponse
+    public function store(StoreApiKeyRequest $request): JsonResponse
     {
-        $validated = request()->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'rate_limit_tier' => ['nullable', 'string', 'in:basic,pro,enterprise,unlimited'],
-        ]);
-
-        $key = ApiKey::generate($validated['name'], $validated);
+        $key = ApiKey::generate($request->input('name'), $request->validated());
 
         return $this->apiMessage(__('API key created successfully'))
             ->apiBody(['api_key' => $key])
             ->apiResponse();
     }
 
-    /**
-     * Show the specified resource.
-     */
     public function show(ApiKey $key): JsonResponse
     {
         return $this->apiBody(['api_key' => $key])->apiResponse();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ApiKey $key): JsonResponse
+    public function update(UpdateApiKeyRequest $request, ApiKey $key): JsonResponse
     {
-        $validated = request()->validate([
-            'name' => ['nullable', 'string', 'max:255'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
-
-        $key->update($validated);
+        $key->update($request->validated());
 
         return $this->apiMessage(__('API key updated successfully'))
             ->apiBody(['api_key' => $key->fresh()])
             ->apiResponse();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ApiKey $key): JsonResponse
     {
         $key->delete();

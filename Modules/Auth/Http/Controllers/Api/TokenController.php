@@ -1,12 +1,13 @@
 <?php
 
-namespace Modules\Auth\Http\Controllers;
+namespace Modules\Auth\Http\Controllers\Api;
 
 use App\Enums\TokenAbilityEnum;
+use App\Http\Controllers\Api\ApiController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class TokenController
+class TokenController extends ApiController
 {
     public function refresh(Request $request): JsonResponse
     {
@@ -20,34 +21,24 @@ class TokenController
             TokenAbilityEnum::Access->expiration()
         );
 
-        return response()->json([
-            'status' => true,
-            'message' => __('Token refreshed'),
-            'body' => [
-                'access_token' => $token->plainTextToken,
-                'token_type' => 'Bearer',
-                'expires_in' => config('sanctum.expiration', 15) * 60,
-            ],
-        ]);
+        return $this->apiBody([
+            'access_token' => $token->plainTextToken,
+            'token_type' => 'Bearer',
+            'expires_in' => config('sanctum.expiration', 15) * 60,
+        ])->apiResponse();
     }
 
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => __('Logged out successfully'),
-        ]);
+        return $this->apiMessage(__('Logged out successfully'))->apiResponse();
     }
 
     public function revokeAll(Request $request): JsonResponse
     {
         $request->user()->tokens()->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => __('All tokens revoked successfully'),
-        ]);
+        return $this->apiMessage(__('All tokens revoked successfully'))->apiResponse();
     }
 }

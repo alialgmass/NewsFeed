@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Auth\Http\Requests;
+namespace Modules\User\Http\Requests;
 
 use App\Support\Traits\Request\ValidationRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class RegisterRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
     use ValidationRequest;
 

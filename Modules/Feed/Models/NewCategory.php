@@ -33,6 +33,7 @@ class NewCategory extends Model
     {
         return $this->belongsTo(NewCategory::class, 'parent_id');
     }
+
     public function interests()
     {
         return $this->hasMany(InterestCategory::class, 'new_category_id');
