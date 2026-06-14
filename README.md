@@ -19,11 +19,11 @@ A personalized news aggregation platform built with **Laravel 13**, **Vue 3**, a
 | Layer | Technology |
 |---|---|
 | Backend | PHP 8.4 / Laravel 13 |
-| Frontend | Vue 3 + TypeScript |
-| SPA | Inertia.js v3 |
+
+
 | CSS | Tailwind CSS v4 |
 | Auth | Laravel Fortify + Sanctum |
-| Build | Vite 8 |
+| Build | Vite |
 | Database | SQLite (dev) |
 | Testing | PHPUnit 12 |
 | Modules | nwidart/laravel-modules |
@@ -34,26 +34,15 @@ A personalized news aggregation platform built with **Laravel 13**, **Vue 3**, a
 - Composer
 - Node.js 18+
 - SQLite (or your database of choice)
-
 ## Quick Start
 
 ```bash
-# Clone and install dependencies
 composer install
 npm install
-
-# Environment setup
 cp .env.example .env
 php artisan key:generate
-
-# Database
 touch database/database.sqlite
 php artisan migrate --seed
-
-# Build frontend
-npm run build
-
-# Start dev server
 composer run dev
 ```
 
@@ -78,11 +67,7 @@ The `composer run dev` command concurrently starts:
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Vite HMR dev server |
 | `npm run build` | Production build |
-| `npm run build:ssr` | Build with SSR |
-| `npm run lint` | ESLint fix |
-| `npm run format` | Prettier format |
 
 ## Project Structure
 
@@ -100,16 +85,10 @@ The `composer run dev` command concurrently starts:
 │   ├── Auth/             # Authentication (Sanctum tokens)
 │   ├── Feed/             # News feed (items, categories, personalization)
 │   ├── Gateway/          # API gateway (keys, webhooks)
-│   ├── Search/           # Search (placeholder)
+│   ├── Search/           # Search (autocomplete, tracking)
 │   └── User/             # User interests
 ├── resources/
-│   ├── js/               # Vue 3 frontend
-│   │   ├── pages/        # Inertia page components
-│   │   ├── layouts/      # Layout components
-│   │   ├── components/   # Reusable UI components
-│   │   ├── composables/  # Vue composables
-│   │   └── types/        # TypeScript type definitions
-│   └── views/            # Blade templates (root SPA entry)
+│   └── views/            # Blade templates
 ├── routes/               # Web, API, settings, console routes
 ├── config/               # Application configuration
 ├── database/             # Migrations, factories, seeders
@@ -140,17 +119,9 @@ php artisan test --compact --filter=testName
 ## Code Quality
 
 ```bash
-# PHP code style
 composer run lint          # Auto-fix
 composer run lint:check    # Check only
-
-# Frontend linting/formatting
-npm run lint:check         # ESLint
-npm run format:check       # Prettier
-npm run types:check        # TypeScript (vue-tsc)
-
-# Full CI check
-composer run ci:check
+composer run ci:check      # Full CI check
 ```
 
 ## Deployment
@@ -167,7 +138,7 @@ For manual deployment, ensure:
 
 ## Documentation
 
-- [`docs/architecture.md`](docs/architecture.md) — System architecture, authentication, frontend, middleware
+- [`docs/architecture.md`](docs/architecture.md) — System architecture, authentication, middleware
 - [`docs/api.md`](docs/api.md) — API reference (Sanctum, Gateway, response format)
 - [`docs/modules.md`](docs/modules.md) — All modules reference with models, services, routes
 - [`docs/feed.md`](docs/feed.md) — Feed (News) module deep-dive: personalization, endpoints, database

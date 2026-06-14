@@ -131,12 +131,10 @@ On each request, `AutocompleteService::buildTrie()`:
 ### Search Lifecycle
 
 1. **User types** in search box (e.g., "lar")
-2. **Frontend** calls `GET /api/search/autocomplete?q=lar`
-3. **AutocompleteController::suggest()** validates via `AutocompleteRequest`
-4. **AutocompleteService::suggest()** checks cache, then builds/searchs Trie
-5. Returns ranked suggestions
-6. **On submit**, frontend calls `POST /api/search/autocomplete/track`
-7. **SearchTracker::record()** upserts the search term with incremented frequency
+2. **AutocompleteController::suggest()** validates via `AutocompleteRequest`
+3. **AutocompleteService::suggest()** checks cache, then builds/searches Trie
+4. Returns ranked suggestions
+5. **On submit**, **SearchTracker::record()** upserts the search term with incremented frequency
 
 ### Frequency Table Growth
 

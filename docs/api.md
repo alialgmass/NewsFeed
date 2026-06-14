@@ -4,7 +4,7 @@
 
 NewsFeed provides two API authentication pathways:
 
-1. **Sanctum Tokens** — For internal/first-party API clients (SPA, mobile)
+1. **Sanctum Tokens** — For internal/first-party API clients
 2. **API Keys** — For external third-party services
 
 ## Sanctum Token API

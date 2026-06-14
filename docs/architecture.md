@@ -2,27 +2,25 @@
 
 ## Overview
 
-NewsFeed follows a **modular monolith** architecture built on Laravel 13 with an Inertia.js SPA frontend. The application is organized into domain modules using `nwidart/laravel-modules`.
+NewsFeed follows a **modular monolith** architecture built on Laravel 13. The application is organized into domain modules using `nwidart/laravel-modules`.
 
 ## System Design
 
 ```
-Client (Browser)                     External API Client
-      |                                      |
-      v                                      v
-  Inertia SPA                          API Gateway (Sanctum/ApiKey)
-  (Vue 3 + Inertia v3)                 Module: Gateway
-      |                                      |
-      +--------+-----------+          +------+------+
-               |                       |             |
-          Laravel App              Rate Limit    Auth Check
-      Inertia::render()               |             |
-               |                       v             v
-          Inertia Response         GatewayController
-               |                       |
-               v                       v
-         Vue Page                  JSON Response
-      (resources/js/pages)
+External API Client
+      |
+      v
+  API Gateway (Sanctum/ApiKey)
+      |
+      +------+------+
+             |             |
+        Rate Limit    Auth Check
+             |             |
+             v             v
+        GatewayController
+             |
+             v
+        JSON Response
 ```
 
 ## Authentication Architecture
@@ -55,7 +53,7 @@ Each module follows a consistent structure:
 Modules/{Module}/
 ├── Http/
 │   ├── Controllers/
-│   │   ├── {Module}Controller.php    (web/Inertia)
+│   │   ├── {Module}Controller.php
 │   │   └── Api/                       (API controllers)
 │   └── Middleware/                    (module-specific middleware)
 ├── Models/
@@ -83,15 +81,7 @@ The feed personalization lives in `Modules/Feed/Services/NewsItemService`:
 5. Falls back to chronological ordering when no interests exist
 6. Reading activity triggers `NewsItemRead` event for auto-interest tracking
 
-## Frontend Architecture
 
-- **SSR**: Inertia SSR enabled, works automatically with `@inertiajs/vite`
-- **State**: Server-driven via Inertia props; client-side state with Vue composables
-- **Routing**: Laravel routes rendered client-side by Inertia; Wayfinder generates typed TS helpers
-- **Theming**: `useAppearance` composable with cookie-based SSR persistence
-- **UI Components**: Reka UI primitives + Lucide icons + Vue Sonner toasts
-- **Forms**: `useForm` from `@inertiajs/vue3`
-- **HTTP**: Built-in Inertia XHR client (no Axios dependency)
 
 ## Database
 
@@ -123,11 +113,7 @@ Custom middleware (20 total) includes:
 - **Security**: IP whitelist, CORS, session security headers
 - **Multi-tenancy**: `InitializeTenancyByAuth`, tenant maintenance mode
 - **Feature**: Locale, appearance (theme), rate limiting
-- **Inertia**: `HandleInertiaRequests` (shared data, flash messages)
-
 ## Error Handling
 
 - Standard Laravel exception handling
 - Custom `ApiException` for API responses
-- Inertia error page support with custom exception handling
-- Flash messages via Vue Sonner toasts
