@@ -78,9 +78,10 @@ The feed personalization lives in `Modules/Feed/Services/NewsItemService`:
 
 1. User interest levels are fetched with a 5-minute cache (`user_interests:{id}`)
 2. Items are ranked using a `CASE WHEN` SQL expression matching interest categories
-3. Fetched via cursor pagination for performance
-4. Falls back to chronological ordering when no interests exist
-5. Reading activity triggers `NewsItemRead` event
+3. Priority ranked via `CASE WHEN` SQL expression — lower ordinal = higher rank
+4. Fetched via cursor pagination for performance
+5. Falls back to chronological ordering when no interests exist
+6. Reading activity triggers `NewsItemRead` event for auto-interest tracking
 
 ## Frontend Architecture
 
@@ -110,7 +111,8 @@ The feed personalization lives in `Modules/Feed/Services/NewsItemService`:
 ### Caching Strategy
 
 - User interests: `user_interests:{id}`, 5-minute TTL
-- Personalized feed: SQL-level with indexed queries
+- Personalized feed: SQL-level with indexed composite key `(new_category_id, published_at)`
+- Autocomplete suggestions: `autocomplete:{query}:{limit}`, 1-hour TTL. Cleared on new term recording
 - Standard Eloquent model caching where applicable
 
 ## Middleware Pipeline

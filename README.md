@@ -118,11 +118,11 @@ The `composer run dev` command concurrently starts:
 
 ## Modules
 
+- **Feed** — Core news feed with `NewsItem` (translatable, media) and `NewsCategory` (hierarchical) models. Personalized ranking via `NewsItemService` using `CASE WHEN` SQL priority. Cursor-paginated API. [`docs/feed.md`](docs/feed.md)
+- **Search** — Trie-based autocomplete engine with frequency tracking. Provides `suggest` and `track` API endpoints with 1-hour result caching. [`docs/search.md`](docs/search.md)
 - **Auth** — Sanctum token-based API authentication (login, register, token management, profile)
-- **Feed** — Core news feed with `NewsItem` and `NewsCategory` models, personalized ranking via `NewsItemService`
 - **Gateway** — API key management with rate limiting, IP restrictions, and webhook dispatching
 - **User** — Interest categories with weighted scoring to personalize feed ordering
-- **Search** — Placeholder for future search functionality
 
 ## Testing
 
@@ -162,6 +162,16 @@ For manual deployment, ensure:
 - Database migrations have run
 - Queue worker is running for queued jobs
 - Vite assets are built (`npm run build`)
+
+## License
+
+## Documentation
+
+- [`docs/architecture.md`](docs/architecture.md) — System architecture, authentication, frontend, middleware
+- [`docs/api.md`](docs/api.md) — API reference (Sanctum, Gateway, response format)
+- [`docs/modules.md`](docs/modules.md) — All modules reference with models, services, routes
+- [`docs/feed.md`](docs/feed.md) — Feed (News) module deep-dive: personalization, endpoints, database
+- [`docs/search.md`](docs/search.md) — Search module deep-dive: Trie autocomplete, tracking, caching
 
 ## License
 
