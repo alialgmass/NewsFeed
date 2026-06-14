@@ -1,0 +1,11 @@
+{
+    "name": "Gateway",
+    "alias": "gateway",
+    "description": "API Gateway module - CORS, rate limiting, API key auth, webhooks",
+    "keywords": ["api", "gateway", "cors", "rate-limiting", "webhooks"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Gateway\\Providers\\GatewayServiceProvider"
+    ],
+    "files": []
+}

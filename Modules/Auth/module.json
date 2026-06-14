@@ -1,0 +1,11 @@
+{
+    "name": "Auth",
+    "alias": "auth",
+    "description": "Auth Service - Sanctum token-based register, login, refresh, revoke",
+    "keywords": ["auth", "sanctum", "tokens", "login", "register"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Auth\\Providers\\AuthServiceProvider"
+    ],
+    "files": []
+}
