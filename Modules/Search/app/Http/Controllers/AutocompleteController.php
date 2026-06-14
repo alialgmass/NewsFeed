@@ -22,7 +22,7 @@ class AutocompleteController extends ApiController
         );
 
         return $this->apiBody()
-            ->data($results)
+            ->apiBody($results)
             ->apiResponse();
     }
 
@@ -33,7 +33,7 @@ class AutocompleteController extends ApiController
         );
 
         return $this->apiBody()
-            ->message('Search term recorded')
+            ->apiMessage('Search term recorded')
             ->apiResponse();
     }
 }
